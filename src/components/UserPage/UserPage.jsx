@@ -1,18 +1,30 @@
-import React from 'react';
-import LogOutButton from '../LogOutButton/LogOutButton';
-import {useSelector} from 'react-redux';
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import ConcertItem from "../ConcertItem/ConcertItem";
 
 function UserPage() {
-  // this component doesn't do much to start, just renders some user reducer info to the DOM
-  const user = useSelector((store) => store.user);
+  // setup dispatch
+  const dispatch = useDispatch();
+  // get upcoming concert list from store
+  const concertList = useSelector((store) => store.concertList._embedded);
+  console.log('Concert List:', concertList);
+
+// on page load, run 'FETCH_CONCERTS' -> results in rendering of concert events.
+useEffect(() => {
+  dispatch({
+    type: "FETCH_CONCERTS",
+  });
+}, []);
+
   return (
-    <div className="container">
-      <h2>Welcome, {user.username}!</h2>
-      <p>Your ID is: {user.id}</p>
-      <LogOutButton className="btn" />
+    <div id="concertContainer">
+      {concertList?.events &&
+        concertList.events.map((concert) => (
+          <ConcertItem key={concert.id} concert={concert} />
+        ))}
     </div>
   );
 }
 
-// this allows us to use <App /> in index.js
 export default UserPage;
