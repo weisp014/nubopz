@@ -1,9 +1,9 @@
 import axios from "axios";
 import { put, takeEvery } from "redux-saga/effects";
 
-function* fetchConcerts() {
+function* fetchConcerts(action) {
   try {
-    const concertList = yield axios.get("/api/concerts");
+    const concertList = yield axios.get(`/api/concerts/${action.payload}`);
     console.log("incoming concerts:", concertList.data);
     yield put({
       type: "SET_CONCERTS",
@@ -14,7 +14,7 @@ function* fetchConcerts() {
   }
 }
 
-function* concertsSaga() {
+function* concertsSaga(action) {
   // fetch all concert events
   yield takeEvery("FETCH_CONCERTS", fetchConcerts);
 }
