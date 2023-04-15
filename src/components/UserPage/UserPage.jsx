@@ -29,9 +29,9 @@ function UserPage() {
       dispatch({
         type: "FETCH_CONCERTS",
         payload: {
-          zipCode
-      }
-    });
+          zipCode,
+        },
+      });
     }
   };
 
