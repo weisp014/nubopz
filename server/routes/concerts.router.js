@@ -5,9 +5,8 @@ const axios = require("axios");
 // GET list of upcoming concerts starting from today's date
 router.get('/', (req, res) => {
   // get today's date
-  const today = new Date();
-  console.log(today);
-  console.log("today:", today.toDateString());
+  const date = new Date();
+  const today = date.toISOString().split('T')[0];
 
   // incoming query params
   const zip = req.query.zip;
@@ -15,7 +14,7 @@ router.get('/', (req, res) => {
   axios
     .get(
       `https://app.ticketmaster.com/discovery/v2/events?apikey=
-      ${process.env.TMASTER_API_KEY}&locale=*&startDateTime=2023-04-15T00:00:00Z
+      ${process.env.TMASTER_API_KEY}&locale=*&startDateTime=${today}T00:00:00Z
       &sort=date,name,asc&segmentName=Music&postalCode=${zip}&radius=30`
     )
     .then((response) => {
