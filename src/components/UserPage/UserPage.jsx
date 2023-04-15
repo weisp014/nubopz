@@ -28,8 +28,10 @@ function UserPage() {
       // dispatch search criteria to concerts saga
       dispatch({
         type: "FETCH_CONCERTS",
-        payload: zipCode,
-      });
+        payload: {
+          zipCode
+      }
+    });
     }
   };
 

@@ -3,7 +3,11 @@ import { put, takeEvery } from "redux-saga/effects";
 
 function* fetchConcerts(action) {
   try {
-    const concertList = yield axios.get(`/api/concerts/${action.payload}`);
+    const concertList = yield axios.get(`/api/concerts/`, {
+      params: {
+        zip: action.payload.zipCode
+      }
+    });
     console.log("incoming concerts:", concertList.data);
     yield put({
       type: "SET_CONCERTS",
