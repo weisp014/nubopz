@@ -1,12 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
 // GET list of upcoming concerts starting from today's date
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   // get today's date
   const date = new Date();
-  const today = date.toISOString().split('T')[0];
+  const today = date.toISOString().split("T")[0];
 
   // incoming query params
   const zip = req.query.zip;
@@ -26,10 +26,26 @@ router.get('/', (req, res) => {
     });
 });
 
+// GET details for specific concert
+router.get("/details/:id", (req, res) => {
+  console.log("id:", req.params.id);
+  axios.get(
+    `https://app.ticketmaster.com/discovery/v2/events/${req.params.id}?apikey=${process.env.TMASTER_API_KEY}&locale=*`
+  )
+  .then((response) => {
+    console.log("incoming details:", response.data)
+    res.send(response.data);
+  })
+  .catch((err) => {
+    console.log("error getting concert details:", err);
+    res.sendStatus(500);
+  });
+});
+
 /**
  * POST route template
  */
-router.post('/', (req, res) => {
+router.post("/", (req, res) => {
   // POST route code here
 });
 
