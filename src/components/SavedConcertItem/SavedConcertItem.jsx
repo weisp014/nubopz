@@ -22,6 +22,13 @@ function SavedConcertItem({ concert }) {
     });
   };
 
+  const removeConcert = () => {
+    dispatch({
+        type: "REMOVE_CONCERT",
+        payload: concert.event_id
+    })
+  }
+
   return (
     <Grid
       item
@@ -59,6 +66,9 @@ function SavedConcertItem({ concert }) {
               Not Attended
             </Button>
           )}
+          <Button onClick={removeConcert} size="small">
+              Remove
+            </Button>
         </CardActions>
       </Card>
     </Grid>
