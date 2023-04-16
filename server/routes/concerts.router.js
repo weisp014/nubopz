@@ -66,7 +66,7 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   // send information to DB
   pool
     .query(queryText, queryParams)
-    .then((response) => {
+    .then(() => {
       res.sendStatus(201);
     })
     .catch((err) => {
@@ -81,7 +81,8 @@ router.get("/favorites", rejectUnauthenticated, (req, res) => {
   // order concerts that haven't been attended first and newest dates
   const queryText = `SELECT * FROM "favorites"
                       WHERE "user_id" = $1
-                      ORDER BY "attended" ASC,
+                      ORDER BY 
+                      "attended" ASC,
                       "date" ASC;`;
 
   pool
@@ -105,13 +106,28 @@ router.put("/favorites", rejectUnauthenticated, (req, res) => {
 
   pool
     .query(queryText, queryParams)
-    .then((response) => {
+    .then(() => {
       res.sendStatus(200);
     })
     .catch((err) => {
       console.log("error updating attended:", err);
       res.sendStatus(500);
+    });
+});
+
+// DELETE concert from user's saved concerts
+router.delete("/favorites/:id", rejectUnauthenticated, (req, res) => {
+  const queryText = `DELETE FROM "favorites" WHERE "user_id" = $1 AND "event_id" = $2`;
+  const queryParams = [req.user.id, req.params.id];
+  pool
+    .query(queryText, queryParams)
+    .then(() => {
+      res.sendStatus(200);
     })
+    .catch((err) => {
+      console.log("error removing concert:", err);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;
