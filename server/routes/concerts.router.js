@@ -77,9 +77,12 @@ router.post("/", rejectUnauthenticated, (req, res) => {
 
 // GET list of user's saved concerts
 router.get("/favorites", rejectUnauthenticated, (req, res) => {
-  // Check if user's ID is a match
+  // check if user's ID is a match
+  // order concerts that haven't been attended first and newest dates
   const queryText = `SELECT * FROM "favorites"
-  WHERE "user_id"=$1;`;
+                      WHERE "user_id" = $1
+                      ORDER BY "attended" ASC,
+                      "date" ASC;`;
 
   pool
     .query(queryText, [req.user.id])
@@ -90,6 +93,25 @@ router.get("/favorites", rejectUnauthenticated, (req, res) => {
       console.log("error getting saved concerts:", err);
       res.sendStatus(500);
     });
+});
+
+// PUT to update attended for concert in user's saved concerts
+router.put("/favorites", rejectUnauthenticated, (req, res) => {
+  // update attended column for this user's specific event
+  const queryText = `UPDATE "favorites"
+                      SET "attended" = $1
+                      WHERE "user_id" = $2 AND "event_id" = $3;`;
+  const queryParams = [req.body.attended, req.user.id, req.body.event_id];
+
+  pool
+    .query(queryText, queryParams)
+    .then((response) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log("error updating attended:", err);
+      res.sendStatus(500);
+    })
 });
 
 module.exports = router;
