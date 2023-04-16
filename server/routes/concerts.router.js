@@ -36,7 +36,7 @@ router.get("/details/:id", (req, res) => {
   axios
     .get(
       `https://app.ticketmaster.com/discovery/v2/events/${req.params.id}?apikey=
-    ${process.env.TMASTER_API_KEY}&locale=*`
+      ${process.env.TMASTER_API_KEY}&locale=*`
     )
     .then((response) => {
       res.send(response.data);
@@ -47,7 +47,9 @@ router.get("/details/:id", (req, res) => {
     });
 });
 
-//  POST concert info to user's saved list
+// POST concert info to user's saved list
+// will NOT allow same concert ID to be added by a user twice
+// "user_id" AND "event_id" needs to be unique combination
 router.post("/", rejectUnauthenticated, (req, res) => {
   const queryParams = [
     req.user.id,
@@ -61,6 +63,7 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     ("user_id", "event_id", "event_name", "venue", "image_url", "date")
     VALUES ($1, $2, $3, $4, $5, $6);`;
 
+  // send information to DB
   pool
     .query(queryText, queryParams)
     .then((results) => {

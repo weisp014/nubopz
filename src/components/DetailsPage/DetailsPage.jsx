@@ -3,11 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 
 function DetailsPage() {
   const dispatch = useDispatch();
+  // get details from the store
   const concertDetails = useSelector((store) => store.details);
-  console.log(concertDetails);
+
+  // local state to control save button
+  const [saveToggle, setSaveToggle] = useState(true);
 
   // TODO: Add info and price?
   const saveConcert = () => {
+    // changing toggle to remove save button
+    setSaveToggle(false);
     dispatch({
       type: "SAVE_CONCERT",
       payload: {
@@ -31,7 +36,10 @@ function DetailsPage() {
               concertDetails._embedded.venues[0].name}
           </p>
           <h3>{concertDetails.dates.start.dateTime}</h3>
-          <button onClick={saveConcert}>SAVE</button>
+          {/* show save button if saveToggle true */}
+          {saveToggle && <button onClick={saveConcert}>SAVE</button>
+          }
+          
         </div>
       )}
     </>
