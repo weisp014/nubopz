@@ -66,11 +66,28 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   // send information to DB
   pool
     .query(queryText, queryParams)
-    .then((results) => {
+    .then((response) => {
       res.sendStatus(201);
     })
     .catch((err) => {
       console.log("error saving concert info:", err);
+      res.sendStatus(500);
+    });
+});
+
+// GET list of user's saved concerts
+router.get("/favorites", rejectUnauthenticated, (req, res) => {
+  // Check if user's ID is a match
+  const queryText = `SELECT * FROM "favorites"
+  WHERE "user_id"=$1;`;
+
+  pool
+    .query(queryText, [req.user.id])
+    .then((response) => {
+      res.send(response.rows);
+    })
+    .catch((err) => {
+      console.log("error getting saved concerts:", err);
       res.sendStatus(500);
     });
 });
