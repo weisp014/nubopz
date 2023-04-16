@@ -20,6 +20,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import DetailsPage from '../DetailsPage/DetailsPage';
+import MyList from '../MyList/MyList';
 
 import './App.css';
 
@@ -117,6 +118,14 @@ function App() {
             path="/details"
           >
             <DetailsPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows My List else shows LoginPage
+            exact
+            path="/myList"
+          >
+            <MyList />
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}

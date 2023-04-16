@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import Grid from "@mui/material/Grid";
+
 import ConcertItem from "../ConcertItem/ConcertItem";
 
 function UserPage() {
@@ -48,12 +50,18 @@ function UserPage() {
         <button type="submit">Find Concerts</button>
       </form>
 
-      <div id="concertContainer">
+      <Grid 
+        container
+        spacing={{ xs: 2, md: 3 }}
+        direction="column"
+        alignItems="center"
+        justify="center"
+      >
         {concertList?.events &&
           concertList.events.map((concert) => (
             <ConcertItem key={concert.id} concert={concert} />
           ))}
-      </div>
+      </Grid>
     </>
   );
 }
