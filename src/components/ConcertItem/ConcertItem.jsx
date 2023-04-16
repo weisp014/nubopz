@@ -5,6 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
 function ConcertItem({ concert }) {
   const dispatch = useDispatch();
@@ -23,27 +24,30 @@ function ConcertItem({ concert }) {
     /* <p>Price:{concert.priceRanges.length && concert.priceRanges[0].min}</p> */
   }
   return (
-    <Card sx={{ maxWidth: 300 }}>
-      <CardMedia
-        sx={{ height: 300 }}
-        image={concert.images[0].url}
-        title={concert.name}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {concert.name}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {concert._embedded && concert._embedded.venues[0].name}
-          {concert.dates.start.localDate}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button onClick={handleDetails} size="small">
-          Details
-        </Button>
-      </CardActions>
-    </Card>
+    <Grid item xs={12} sm={6} md={4} lg={3} xl={2} style={{ textAlign: "center" }}>
+      <Card sx={{ minWidth: 300, minHeight: 400}}>
+        <CardMedia
+          sx={{ height: 200 }}
+          image={concert.images[3].url}
+          title={concert.name}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {concert.name}
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            {concert._embedded && concert._embedded.venues[0].name}
+            <br></br>
+            {concert.dates.start.localDate}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button onClick={handleDetails} size="small">
+            Details
+          </Button>
+        </CardActions>
+      </Card>
+    </Grid>
   );
 }
 
