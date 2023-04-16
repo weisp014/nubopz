@@ -11,13 +11,15 @@ function SavedConcertItem({ concert }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // update concert with opposite value for attended to be able to toggle
+  // update concert with opposite value for attended to toggle
   const changeAttended = () => {
-    console.log("in changeAttended for id:", concert.id);
-    // dispatch({
-    //   type: "UPDATE_CONCERT_ATTENDED",
-    //   payload: !concert.attended,
-    // });
+    dispatch({
+      type: "UPDATE_CONCERT_ATTENDED",
+      payload: {
+        event_id: concert.event_id,
+        attended: !concert.attended,
+      },
+    });
   };
 
   return (

@@ -43,6 +43,18 @@ function* fetchMyConcerts(action) {
   }
 }
 
+function* updateConcertAttended(action) {
+  try {
+    yield axios.put(`/api/concerts/favorites/`, action.payload);
+    // fetch user's concerts after updating
+    yield put({
+      type: "FETCH_MY_CONCERTS"
+    })
+  } catch (err) {
+    console.log("error updating concert attended", err);
+  }
+}
+
 function* concertsSaga(action) {
   // fetch all concert events
   yield takeEvery("FETCH_CONCERTS", fetchConcerts);
@@ -50,6 +62,8 @@ function* concertsSaga(action) {
   yield takeEvery("FETCH_CONCERT_DETAILS", fetchConcertDetails);
   // fetch user's saved concerts
   yield takeEvery("FETCH_MY_CONCERTS", fetchMyConcerts);
+  // update attended value for concert in user's list
+  yield takeEvery("UPDATE_CONCERT_ATTENDED", updateConcertAttended)
 }
 
 export default concertsSaga;
