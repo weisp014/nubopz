@@ -43,6 +43,16 @@ function* fetchMyConcerts(action) {
   }
 }
 
+function* saveConcert(action) {
+  try {
+      //post concert info to user's saved list
+      yield axios.post("/api/concerts/", action.payload);
+
+  } catch (err) {
+      console.log("error saving concert", err);
+  }
+}
+
 function* updateConcertAttended(action) {
   try {
     yield axios.put(`/api/concerts/favorites/`, action.payload);
@@ -55,6 +65,18 @@ function* updateConcertAttended(action) {
   }
 }
 
+function* removeConcert(action) {
+  try {
+    yield axios.delete(`/api/concerts/favorites/${action.payload}`);
+    // fetch user's concerts after removing
+    yield put({
+      type: "FETCH_MY_CONCERTS"
+    })
+  } catch (err) {
+    console.log("error removing concert:", err);
+  }
+}
+
 function* concertsSaga(action) {
   // fetch all concert events
   yield takeEvery("FETCH_CONCERTS", fetchConcerts);
@@ -62,8 +84,12 @@ function* concertsSaga(action) {
   yield takeEvery("FETCH_CONCERT_DETAILS", fetchConcertDetails);
   // fetch user's saved concerts
   yield takeEvery("FETCH_MY_CONCERTS", fetchMyConcerts);
+  // save concert to user list
+  yield takeEvery("SAVE_CONCERT", saveConcert);
   // update attended value for concert in user's list
   yield takeEvery("UPDATE_CONCERT_ATTENDED", updateConcertAttended)
+  // remove concert from user list
+  yield takeEvery("REMOVE_CONCERT", removeConcert);
 }
 
 export default concertsSaga;
