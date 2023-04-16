@@ -21,7 +21,6 @@ function* fetchConcerts(action) {
 function* fetchConcertDetails(action) {
   try {
     const concertDetails = yield axios.get(`/api/concerts/details/${action.payload}`);
-    console.log("incoming details:", concertDetails);
     yield put({
       type: "SET_DETAILS",
       payload: concertDetails.data,
@@ -31,11 +30,26 @@ function* fetchConcertDetails(action) {
   }
 }
 
+function* fetchMyConcerts(action) {
+  try {
+    const myConcerts = yield axios.get(`/api/concerts/favorites/`);
+    console.log("my concerts:", myConcerts);
+    yield put({
+      type: "SET_FAVORITES",
+      payload: myConcerts.data
+    })
+  } catch (err) {
+    console.log("error getting saved concerts");
+  }
+}
+
 function* concertsSaga(action) {
   // fetch all concert events
   yield takeEvery("FETCH_CONCERTS", fetchConcerts);
   // fetch concert details
   yield takeEvery("FETCH_CONCERT_DETAILS", fetchConcertDetails);
+  // fetch user's saved concerts
+  yield takeEvery("FETCH_MY_CONCERTS", fetchMyConcerts);
 }
 
 export default concertsSaga;
