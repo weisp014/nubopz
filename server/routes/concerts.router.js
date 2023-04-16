@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+const pool = require("../modules/pool");
+const {
+  rejectUnauthenticated,
+} = require("../modules/authentication-middleware");
 
 // GET list of upcoming concerts starting from today's date
 router.get("/", (req, res) => {
@@ -26,27 +30,46 @@ router.get("/", (req, res) => {
     });
 });
 
-// GET details for specific concert
+// GET details for specific concert by ID
 router.get("/details/:id", (req, res) => {
   console.log("id:", req.params.id);
-  axios.get(
-    `https://app.ticketmaster.com/discovery/v2/events/${req.params.id}?apikey=${process.env.TMASTER_API_KEY}&locale=*`
-  )
-  .then((response) => {
-    console.log("incoming details:", response.data)
-    res.send(response.data);
-  })
-  .catch((err) => {
-    console.log("error getting concert details:", err);
-    res.sendStatus(500);
-  });
+  axios
+    .get(
+      `https://app.ticketmaster.com/discovery/v2/events/${req.params.id}?apikey=
+    ${process.env.TMASTER_API_KEY}&locale=*`
+    )
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((err) => {
+      console.log("error getting concert details:", err);
+      res.sendStatus(500);
+    });
 });
 
-/**
- * POST route template
- */
-router.post("/", (req, res) => {
-  // POST route code here
+//  POST concert info to user's saved list
+router.post("/", rejectUnauthenticated, (req, res) => {
+  const queryParams = [
+    req.user.id,
+    req.body.event_id,
+    req.body.event_name,
+    req.body.venue,
+    req.body.image_url,
+    req.body.date,
+  ];
+  const queryText = `INSERT INTO "favorites" 
+    ("user_id", "event_id", "event_name", "venue", "image_url", "date")
+    VALUES ($1, $2, $3, $4, $5, $6);`;
+
+  pool
+    .query(queryText, queryParams)
+    .then((results) => {
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      console.log("error saving concert info:", err);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;
