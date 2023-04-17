@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 
 import ConcertItem from "../ConcertItem/ConcertItem";
 
-function UserPage() {
+function HomePage() {
   // setup dispatch
   const dispatch = useDispatch();
   // get upcoming concert list from store
@@ -66,4 +66,4 @@ function UserPage() {
   );
 }
 
-export default UserPage;
+export default HomePage;

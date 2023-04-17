@@ -18,7 +18,7 @@ function BottomNav() {
     }}>
       <BottomNavigationAction
         component={Link}
-        to="/user"
+        to="/home"
         label="Home"
         value="home"
         icon={<HomeIcon />}

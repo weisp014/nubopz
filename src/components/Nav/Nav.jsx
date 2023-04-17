@@ -9,9 +9,9 @@ function Nav() {
 
   return (
     <div className="nav">
-      <Link to="/myList">
+      {/* <Link to="/myList">
         <h2 className="nav-title">My List</h2>
-      </Link>
+      </Link> */}
       <div>
         {/* If no user is logged in, show these links */}
         {!user.id && (
