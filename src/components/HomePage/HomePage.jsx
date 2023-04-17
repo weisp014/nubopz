@@ -40,6 +40,7 @@ function HomePage() {
   return (
     <>
       {/* form for submitting new search criteria */}
+      <center>
       <form onSubmit={HandleNewSearch}>
         <input
           type="text"
@@ -49,6 +50,7 @@ function HomePage() {
         />
         <button type="submit">Find Concerts</button>
       </form>
+      </center>
 
       <Grid 
         container
