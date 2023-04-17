@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import HomeIcon from '@mui/icons-material/Home';
@@ -16,13 +17,17 @@ function BottomNav() {
       setValue(newValue);
     }}>
       <BottomNavigationAction
+        component={Link}
+        to="/user"
         label="Home"
         value="home"
         icon={<HomeIcon />}
       />
       <BottomNavigationAction
-        label="Favorites"
-        value="favorites"
+        component={Link}
+        to="/myList"
+        label="My List"
+        value="myList"
         icon={<FavoriteIcon />}
       />
     </BottomNavigation>
