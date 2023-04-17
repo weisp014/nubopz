@@ -14,12 +14,12 @@ router.get("/", (req, res) => {
 
   // incoming query params
   const zip = req.query.zip;
-  // hard-coded 30 mile radius around zip code
+  // hard-coded 30 mile radius around zip code and 100 events
   axios
     .get(
       `https://app.ticketmaster.com/discovery/v2/events?apikey=
       ${process.env.TMASTER_API_KEY}&locale=*&startDateTime=${today}T00:00:00Z
-      &sort=date,name,asc&segmentName=Music&postalCode=${zip}&radius=30`
+      &size=100&sort=date,name,asc&segmentName=Music&postalCode=${zip}&radius=30`
     )
     .then((response) => {
       res.send(response.data);
