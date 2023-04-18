@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { TextField, Button, Stack } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import ConcertItem from "../ConcertItem/ConcertItem";
@@ -39,31 +38,39 @@ function HomePage() {
       {/* form for submitting new search criteria */}
       <center>
         <form onSubmit={HandleNewSearch}>
-          <TextField
-            type="text"
-            value={zipCode}
-            onChange={(event) => setZipCode(event.target.value)}
-            label="Zip Code"
-            helperText="Ex: 55403"
-            required
-          />
-          {loading ? (
-            <LoadingButton
-              type="submit"
-              loading
-              variant="contained"
-              color="primary"
-            >
-              Find Concerts
-            </LoadingButton>
-          ) : (
-            <Button type="submit" loading variant="contained" color="primary">
-              Find Concerts
-            </Button>
-          )}
+          <Stack
+            direction="row"
+            alignItems="flex-start"
+            justifyContent="center"
+            spacing={2}
+          >
+            <TextField
+              sx={{ width: "150px", margin: "5px" }}
+              type="text"
+              value={zipCode}
+              onChange={(event) => setZipCode(event.target.value)}
+              label="Zip Code"
+              helperText="Ex: 55403"
+              required
+            />
+            {loading ? (
+              <LoadingButton
+                type="submit"
+                loading
+                variant="contained"
+                color="primary"
+              >
+                Find<br></br>Concerts
+              </LoadingButton>
+            ) : (
+              <Button type="submit" loading variant="contained" color="primary">
+                Find<br></br>Concerts
+              </Button>
+            )}
+          </Stack>
         </form>
-        </center>
-        <center>
+      </center>
+      <center>
         {concertList?.events ? (
           <Grid container spacing={{ xs: 2, md: 3 }}>
             {concertList?.events &&
