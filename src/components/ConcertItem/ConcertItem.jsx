@@ -25,7 +25,8 @@ function ConcertItem({ concert }) {
   }
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} style={{ textAlign: "center" }}>
-      <Card sx={{ minWidth: 300, minHeight: 400}}>
+      <center>
+      <Card sx={{ minWidth: 300, maxWidth: 300, minHeight: 350, maxHeight: 400}}>
         <CardMedia
           sx={{ height: 200 }}
           image={concert.images[3].url}
@@ -42,11 +43,12 @@ function ConcertItem({ concert }) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button onClick={handleDetails} size="small">
+          <Button onClick={handleDetails} size="large">
             Details
           </Button>
         </CardActions>
       </Card>
+      </center>
     </Grid>
   );
 }

@@ -62,6 +62,8 @@ function HomePage() {
             </Button>
           )}
         </form>
+        </center>
+        <center>
         {concertList?.events ? (
           <Grid container spacing={{ xs: 2, md: 3 }}>
             {concertList?.events &&
