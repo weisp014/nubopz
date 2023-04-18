@@ -9,7 +9,6 @@ import Grid from "@mui/material/Grid";
 
 function SavedConcertItem({ concert }) {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   // update concert with opposite value for attended to toggle
   const changeAttended = () => {
@@ -39,7 +38,8 @@ function SavedConcertItem({ concert }) {
       xl={2}
       style={{ textAlign: "center" }}
     >
-      <Card sx={{ minWidth: 300, minHeight: 400 }}>
+      <center>
+      <Card sx={{ minWidth: 300, maxWidth: 300, minHeight: 350, maxHeight: 400}}>
         <CardMedia
           sx={{ height: 200 }}
           image={concert.image_url}
@@ -71,6 +71,7 @@ function SavedConcertItem({ concert }) {
             </Button>
         </CardActions>
       </Card>
+      </center>
     </Grid>
   );
 }
