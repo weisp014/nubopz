@@ -4,6 +4,7 @@ import user from './user.reducer';
 import concertList from './concerts.reducer';
 import details from './details.reducer';
 import favorites from './favorites.reducer';
+import loading from './loading.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   concertList, // list of upcoming concerts
   details, // concert details
   favorites, // logged in user's saved concerts
+  loading, // track loading during server requests
 });
 
 export default rootReducer;

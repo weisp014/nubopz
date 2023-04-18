@@ -13,6 +13,9 @@ function* fetchConcerts(action) {
       type: "SET_CONCERTS",
       payload: concertList.data,
     });
+    yield put({
+      type: "SET_LOADING"
+    })
   } catch (err) {
     console.log("error getting concerts:", err);
   }

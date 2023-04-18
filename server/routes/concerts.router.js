@@ -11,7 +11,6 @@ router.get("/", (req, res) => {
   // get today's date
   const date = new Date();
   const today = date.toISOString().split("T")[0];
-
   // incoming query params
   const zip = req.query.zip;
   // hard-coded 30 mile radius around zip code and 100 events
