@@ -20,6 +20,15 @@ import DetailsPage from '../DetailsPage/DetailsPage';
 import MyList from '../MyList/MyList';
 
 import './App.css';
+import Box from '@mui/material/Box';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 function App() {
   const dispatch = useDispatch();
@@ -31,9 +40,14 @@ function App() {
   }, [dispatch]);
 
   return (
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
     <Router>
       <div>
-        <Nav />
+      <Nav />
+        {/* padding to make sure bottom nav bar doesn't cover page content */}
+        <Box sx={{pb: 9, m:2}}>
+        
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
@@ -97,8 +111,10 @@ function App() {
         </Switch>
         <BottomNav />
         {/* <Footer /> */}
+        </Box>
       </div>
     </Router>
+    </ThemeProvider>
   );
 }
 
