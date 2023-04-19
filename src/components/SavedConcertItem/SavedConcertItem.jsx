@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-function SavedConcertItem({ concert }) {
+function SavedConcertItem({ concert, attendedFilter }) {
   const dispatch = useDispatch();
 
   // update concert with opposite value for attended to toggle
@@ -17,6 +17,7 @@ function SavedConcertItem({ concert }) {
       payload: {
         event_id: concert.event_id,
         attended: !concert.attended,
+        attendedFilter: attendedFilter,
       },
     });
   };
@@ -24,7 +25,10 @@ function SavedConcertItem({ concert }) {
   const removeConcert = () => {
     dispatch({
         type: "REMOVE_CONCERT",
-        payload: concert.event_id
+        payload: {
+          event_id: concert.event_id,
+          attendedFilter: attendedFilter,
+        },
     })
   }
 
@@ -47,7 +51,7 @@ function SavedConcertItem({ concert }) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {concert.name}
+            {concert.event_name}
           </Typography>
           <Typography variant="body1" color="text.secondary">
             {concert.venue}
