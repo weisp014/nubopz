@@ -75,17 +75,17 @@ router.post("/", rejectUnauthenticated, (req, res) => {
 });
 
 // GET list of user's saved concerts
-router.get("/favorites", rejectUnauthenticated, (req, res) => {
+router.get("/favorites/:attended", rejectUnauthenticated, (req, res) => {
   // check if user's ID is a match
-  // order concerts that haven't been attended first and newest dates
+  // newest dates first
+  // filter by attended
   const queryText = `SELECT * FROM "favorites"
-                      WHERE "user_id" = $1
-                      ORDER BY 
-                      "attended" ASC,
+                      WHERE "user_id" = $1 AND "attended" = $2
+                      ORDER BY
                       "date" ASC;`;
 
   pool
-    .query(queryText, [req.user.id])
+    .query(queryText, [req.user.id, req.params.attended])
     .then((response) => {
       res.send(response.rows);
     })
