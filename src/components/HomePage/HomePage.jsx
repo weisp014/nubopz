@@ -32,6 +32,12 @@ function HomePage() {
     });
   };
 
+  const loginSpotify = () => {
+    dispatch({
+      type: "LOGIN_SPOTIFY"
+    });
+  }
+
   return (
     <>
       {/* form for submitting new search criteria */}
@@ -51,6 +57,7 @@ function HomePage() {
               label="Zip Code"
               helperText="Ex: 55403"
               required
+              autoFocus
             />
             {isLoading ? (
               <LoadingButton
@@ -62,12 +69,15 @@ function HomePage() {
                 Find<br></br>Concerts
               </LoadingButton>
             ) : (
-              <Button type="submit" loading variant="contained" color="primary">
+              <Button type="submit" variant="contained" color="primary">
                 Find<br></br>Concerts
               </Button>
             )}
           </Stack>
         </form>
+      </center>
+      <center>
+      <Button type="button" variant="contained" color="secondary" onClick={loginSpotify}>Login with Spotify</Button>
       </center>
       <center>
         {concertList?.events ? (
