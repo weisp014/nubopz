@@ -36,16 +36,20 @@ function MyList() {
         </ToggleButton>
       </center>
       <center>
-        <Grid container spacing={{ xs: 2, md: 3 }}>
-          {savedConcerts.length &&
-            savedConcerts.map((concert) => (
-              <SavedConcertItem
-                key={concert.id}
-                concert={concert}
-                attendedFilter={attendedFilter}
-              />
-            ))}
-        </Grid>
+        {savedConcerts.length ? (
+          <Grid container spacing={{ xs: 2, md: 3 }}>
+            {savedConcerts.length &&
+              savedConcerts.map((concert) => (
+                <SavedConcertItem
+                  key={concert.id}
+                  concert={concert}
+                  attendedFilter={attendedFilter}
+                />
+              ))}
+          </Grid>
+        ) : (
+          <h2>No concerts to display</h2>
+        )}
       </center>
     </>
   );

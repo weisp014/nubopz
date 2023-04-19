@@ -13,8 +13,7 @@ function HomePage() {
   // get upcoming concert list from store
   const concertList = useSelector((store) => store.concertList._embedded);
   // get loading state from store
-  const loading = useSelector((store) => store.loading);
-  console.log("Concert List:", concertList);
+  const isLoading = useSelector((store) => store.loading);
 
   // stores values from input fields in form
   const [zipCode, setZipCode] = useState("");
@@ -53,7 +52,7 @@ function HomePage() {
               helperText="Ex: 55403"
               required
             />
-            {loading ? (
+            {isLoading ? (
               <LoadingButton
                 type="submit"
                 loading
