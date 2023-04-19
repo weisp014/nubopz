@@ -35,7 +35,7 @@ function* fetchConcertDetails(action) {
 
 function* fetchMyConcerts(action) {
   try {
-    const myConcerts = yield axios.get(`/api/concerts/favorites/`);
+    const myConcerts = yield axios.get(`/api/concerts/favorites/${action.payload.attendedFilter}`);
     console.log("my concerts:", myConcerts);
     yield put({
       type: "SET_FAVORITES",
@@ -61,7 +61,8 @@ function* updateConcertAttended(action) {
     yield axios.put(`/api/concerts/favorites/`, action.payload);
     // fetch user's concerts after updating
     yield put({
-      type: "FETCH_MY_CONCERTS"
+      type: "FETCH_MY_CONCERTS",
+      payload: action.payload
     })
   } catch (err) {
     console.log("error updating concert attended", err);
@@ -70,10 +71,11 @@ function* updateConcertAttended(action) {
 
 function* removeConcert(action) {
   try {
-    yield axios.delete(`/api/concerts/favorites/${action.payload}`);
+    yield axios.delete(`/api/concerts/favorites/${action.payload.event_id}`);
     // fetch user's concerts after removing
     yield put({
-      type: "FETCH_MY_CONCERTS"
+      type: "FETCH_MY_CONCERTS",
+      payload: action.payload
     })
   } catch (err) {
     console.log("error removing concert:", err);
