@@ -30,7 +30,7 @@ router.get("/", (req, res) => {
 });
 
 // GET details for specific concert by ID
-router.get("/details/:id", (req, res) => {
+router.get("/details/:id", rejectUnauthenticated, (req, res) => {
   console.log("id:", req.params.id);
   axios
     .get(

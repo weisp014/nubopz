@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Snackbar from '@mui/material/Snackbar';
+import { Snackbar, Button } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
 function DetailsPage() {
@@ -52,7 +52,7 @@ function DetailsPage() {
               {concertDetails.dates.start.localTime}
             </h3>
             {/* show save button if saveToggle true and show snackbar after clicking SAVE */}
-            {saveToggle && <button onClick={saveConcert}>SAVE</button>}
+            {saveToggle && <Button variant="contained" color="primary" onClick={saveConcert}>SAVE</Button>}
             <Snackbar open={open} anchorOrigin={{vertical: "top", horizontal: "center"}} autoHideDuration={2000} onClose={() => setOpen(false)}>
               <Alert
                 severity="success"

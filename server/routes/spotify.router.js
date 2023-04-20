@@ -4,10 +4,10 @@ const axios = require("axios");
 const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
-const querystring = require("querystring");
+const querystring = require('querystring');
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri = "http://localhost:3000";
+const redirect_uri = "http://localhost:5000/api/spotify/callback";
 
 /**
  * Sourced from basic node.js script that performs
@@ -146,15 +146,36 @@ const redirect_uri = "http://localhost:3000";
 //   });
 // });
 
-router.post("/login", (req, res) => {
-    const code = req.body.code
-
-    axios.post("https://accounts.spotify.com/api/token", {
-
+router.get("/callback", rejectUnauthenticated, (req, res) => {
+  console.log("in callback");
+  // incoming query params
+  var code = req.query.code;
+  console.log("code coming from spotify!!", code);
+  axios
+    .post(
+      "https://accounts.spotify.com/api/token",
+      {
+        code: code,
+        redirect_uri: redirect_uri,
+        grant_type: "authorization_code",
+      },
+      {
+        headers: {
+          Authorization:
+            "Basic " +
+            Buffer.from(client_id + ":" + client_secret).toString("base64"),
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    )
+    .then((response) => {
+      res.send(response);
+      redirect("http://localhost:3000/#/home");
     })
-})
-    
-    
-    
+    .catch((err) => {
+      console.log("error getting token", err);
+      res.redirect(400, "http://localhost:3000/#/home");
+    });
+});
 
 module.exports = router;
