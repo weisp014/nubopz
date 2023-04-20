@@ -24,6 +24,7 @@
     "passport-spotify": "^2.0.0",
     "pg": "^8.5.1",
     "prop-types": "^15.7.2",
+    "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^7.2.6",
