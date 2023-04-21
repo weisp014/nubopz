@@ -44,18 +44,19 @@ router.get("/callback", rejectUnauthenticated, (req, res) => {
       // Save the access token in a session
       req.session.access_token = response.data.access_token;
       console.log(req.session.access_token);
-      res.redirect(200, "http://localhost:3000/#/home");
+      res.redirect(200, "http://localhost:3000");
     })
     .catch((err) => {
       console.log("error getting token", err);
-      res.redirect(400, "http://localhost:3000/#/home");
+      res.redirect(400, "http://localhost:3000");
     });
 });
 
 // search to get artist ID from Spotify
-router.get("/artist", rejectUnauthenticated, (req, res) => {
+router.get("/artist/:artist", rejectUnauthenticated, (req, res) => {
+    console.log("in artist", req.params.artist);
     axios
-    .get("https://api.spotify.com/v1/search?q=the%20strokes&type=artist&limit=1", {
+    .get(`https://api.spotify.com/v1/search?q=${req.params.artist}&type=artist`, {
         headers: {
             'Authorization': `Bearer ${req.session.access_token}`,
             'Content-Type': 'application/json'
@@ -66,17 +67,17 @@ router.get("/artist", rejectUnauthenticated, (req, res) => {
         res.send(response.data);
     })
     .catch((err) => {
-        console.log("error getting tracks", err);
+        console.log("error getting artist ID", err);
         res.sendStatus(500);
     });
 });
 
 // search to get tracks by artist ID from Spotify
 router.get("/tracks", rejectUnauthenticated, (req, res) => {
-    console.log("in tracks", req.query.artist);
-    const artist = String(req.query.artist);
+    console.log("in tracks", req.query.artistID);
+    const artist = req.query.artistID;
     axios
-    .get(`https://api.spotify.com/v1/artists/${artist}/top-tracks?market=US`, {
+    .get(`https://api.spotify.com/v1/artists/${artist}/top-tracks?market=US&limit=3`, {
         headers: {
             'Authorization': `Bearer ${req.session.access_token}`,
             'Content-Type': 'application/json'
