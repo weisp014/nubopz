@@ -2,10 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
-// added for spotify use
-const cookieParser = require("cookie-parser");
-const cors = require('cors');
-
 const app = express();
 
 const sessionMiddleware = require("./modules/session-middleware");
@@ -19,8 +15,6 @@ const spotifyRouter = require("./routes/spotify.router");
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors())
-app.use(cookieParser())
 
 // Passport Session Configuration //
 app.use(sessionMiddleware);
