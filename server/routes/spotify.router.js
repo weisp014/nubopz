@@ -18,11 +18,10 @@ const redirect_uri = "http://localhost:5000/api/spotify/callback";
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
  */
 
+// request to exchange code received for access token to make future requests
 router.get("/callback", rejectUnauthenticated, (req, res) => {
-  console.log("in callback");
-  // incoming query params
-  var code = req.query.code;
-  console.log("code coming from spotify!!", code);
+  // incoming query params from spotify
+  const code = req.query.code;
   axios
     .post(
       "https://accounts.spotify.com/api/token",
@@ -42,14 +41,54 @@ router.get("/callback", rejectUnauthenticated, (req, res) => {
     )
     .then((response) => {
       console.log(response.data);
-      // Save the access token in a cookie or session
-      console.log("Access Token: ", response.data.access_token)
+      // Save the access token in a session
       req.session.access_token = response.data.access_token;
-      res.redirect("http://localhost:3000/#/home");
+      console.log(req.session.access_token);
+      res.redirect(200, "http://localhost:3000/#/home");
     })
     .catch((err) => {
       console.log("error getting token", err);
       res.redirect(400, "http://localhost:3000/#/home");
+    });
+});
+
+// search to get artist ID from Spotify
+router.get("/artist", rejectUnauthenticated, (req, res) => {
+    axios
+    .get("https://api.spotify.com/v1/search?q=the%20strokes&type=artist&limit=1", {
+        headers: {
+            'Authorization': `Bearer ${req.session.access_token}`,
+            'Content-Type': 'application/json'
+          }
+    })
+    .then((response) => {
+        console.log('artist response:', response.data.artists.items[0].name);
+        res.send(response.data);
+    })
+    .catch((err) => {
+        console.log("error getting tracks", err);
+        res.sendStatus(500);
+    });
+});
+
+// search to get tracks by artist ID from Spotify
+router.get("/tracks", rejectUnauthenticated, (req, res) => {
+    console.log("in tracks", req.query.artist);
+    const artist = String(req.query.artist);
+    axios
+    .get(`https://api.spotify.com/v1/artists/${artist}/top-tracks?market=US`, {
+        headers: {
+            'Authorization': `Bearer ${req.session.access_token}`,
+            'Content-Type': 'application/json'
+          }
+    })
+    .then((response) => {
+        console.log('track response:', response.data);
+        res.send(response.data);
+    })
+    .catch((err) => {
+        console.log("error getting tracks", err);
+        res.sendStatus(500);
     });
 });
 
