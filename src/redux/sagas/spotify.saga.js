@@ -19,12 +19,26 @@ function* getTracks(action) {
         payload: tracks.data.tracks
     })
   } catch (err) {
-    console.log("error getting spotify:", err);
+    console.log("error getting spotify tracks:", err);
+  }
+}
+
+function* clearTracks(action) {
+  try {
+    yield put({
+      type: "CLEAR_TOP_TRACKS",
+      payload: [],
+    });
+  } catch (err) {
+    console.log("error clearing spotify tracks:", err);
   }
 }
 
 function* spotifySaga() {
+  // fetch top tracks for artist
   yield takeLatest("GET_TRACKS", getTracks);
+  // clear top tracks for artist
+  yield takeLatest("CLEAR_TRACKS", clearTracks);
 }
 
 export default spotifySaga;
