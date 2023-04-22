@@ -30,8 +30,7 @@ router.get("/", (req, res) => {
 });
 
 // GET details for specific concert by ID
-router.get("/details/:id", (req, res) => {
-  console.log("id:", req.params.id);
+router.get("/details/:id", rejectUnauthenticated, (req, res) => {
   axios
     .get(
       `https://app.ticketmaster.com/discovery/v2/events/${req.params.id}?apikey=

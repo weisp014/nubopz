@@ -6,6 +6,10 @@ import { TextField, Button, Stack } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import ConcertItem from "../ConcertItem/ConcertItem";
+import SpotifyLogin from "./SpotifyLogin";
+import SpotifyDashboard from "./SpotifyDashboard";
+
+const code = new URLSearchParams(window.location.search).get('code')
 
 function HomePage() {
   // setup dispatch
@@ -31,12 +35,6 @@ function HomePage() {
       },
     });
   };
-
-  const loginSpotify = () => {
-    dispatch({
-      type: "LOGIN_SPOTIFY"
-    });
-  }
 
   return (
     <>
@@ -77,7 +75,7 @@ function HomePage() {
         </form>
       </center>
       <center>
-      <Button type="button" variant="contained" color="secondary" onClick={loginSpotify}>Login with Spotify</Button>
+        {code ? <SpotifyDashboard code={code} /> : <SpotifyLogin />}
       </center>
       <center>
         {concertList?.events ? (

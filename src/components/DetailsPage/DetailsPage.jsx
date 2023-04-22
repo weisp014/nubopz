@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import { Snackbar, Button } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
+import { Stack } from "@mui/material";
 
 function DetailsPage() {
   const dispatch = useDispatch();
   // get details from the store
   const concertDetails = useSelector((store) => store.details);
-
+  // get tracks from the store
+  const tracks = useSelector((store) => store.tracks);
   // state to control save button
   const [saveToggle, setSaveToggle] = useState(true);
   // state to control snackbar
@@ -52,16 +54,59 @@ function DetailsPage() {
               {concertDetails.dates.start.localTime}
             </h3>
             {/* show save button if saveToggle true and show snackbar after clicking SAVE */}
-            {saveToggle && <button onClick={saveConcert}>SAVE</button>}
-            <Snackbar open={open} anchorOrigin={{vertical: "top", horizontal: "center"}} autoHideDuration={2000} onClose={() => setOpen(false)}>
-              <Alert
-                severity="success"
-                sx={{ width: "100%" }}
+            {saveToggle && (
+              <Button
+                sx={{ marginBottom: "10px" }}
+                variant="contained"
+                color="primary"
+                onClick={saveConcert}
               >
+                SAVE
+              </Button>
+            )}
+            <Snackbar
+              open={open}
+              anchorOrigin={{ vertical: "top", horizontal: "center" }}
+              autoHideDuration={2000}
+              onClose={() => setOpen(false)}
+            >
+              <Alert severity="success" sx={{ width: "100%" }}>
                 Concert Saved!
               </Alert>
             </Snackbar>
           </div>
+
+          <h1>Top Tracks:</h1>
+          {tracks.length && (
+            <div>
+              <Stack
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+                spacing={2}
+              >
+                <h3>{tracks[0].name}</h3>
+                <h3>{tracks[1].name}</h3>
+                <h3>{tracks[2].name}</h3>
+              </Stack>
+              <Stack
+                direction="column"
+                alignItems="flex-start"
+                justifyContent="center"
+                spacing={2}
+              >
+                <Button variant="outlined" href={tracks[0].uri}>
+                  LISTEN
+                </Button>
+                <Button variant="outlined" href={tracks[1].uri}>
+                  LISTEN
+                </Button>
+                <Button variant="outlined" href={tracks[2].uri}>
+                  LISTEN
+                </Button>
+              </Stack>
+            </div>
+          )}
         </center>
       )}
     </>

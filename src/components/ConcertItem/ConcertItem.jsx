@@ -15,8 +15,12 @@ function ConcertItem({ concert }) {
     console.log("in HandleDetails for id:", concert.id);
     dispatch({
       type: "FETCH_CONCERT_DETAILS",
-      payload: concert.id,
+      payload: concert.id
     });
+    dispatch({
+      type: "GET_TRACKS",
+      payload: concert.name
+    })
     history.push("/details");
   };
 

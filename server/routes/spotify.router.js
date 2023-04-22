@@ -7,10 +7,10 @@ const {
 const querystring = require("querystring");
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri = "http://localhost:3000";
+const redirect_uri = "http://localhost:5000/api/spotify/callback";
 
 /**
- * Sourced from basic node.js script that performs
+ * Initial source from basic node.js script that performs
  * the Authorization Code oAuth2 flow to authenticate against
  * the Spotify Accounts.
  *
@@ -18,143 +18,79 @@ const redirect_uri = "http://localhost:3000";
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
  */
 
-// generates random string with length = incoming argument
-// const generateRandomString = (length) => {
-//   let text = "";
-//   let possible =
-//     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-//   for (let i = 0; i < length; i++) {
-//     text += possible.charAt(Math.floor(Math.random() * possible.length));
-//   }
-//   return text;
-// };
-
-// var stateKey = "spotify_auth_state";
-
-// router.get("/login", rejectUnauthenticated, function (req, res) {
-//   console.log("in spotify get");
-//   var state = generateRandomString(16);
-//   res.cookie(stateKey, state);
-
-//   // requesting authorization from spotify
-//   var scope = "user-read-private user-read-email";
-//   res.redirect(
-//     "https://accounts.spotify.com/authorize?" +
-//       querystring.stringify({
-//         response_type: 'code',
-//         client_id: client_id,
-//         scope: scope,
-//         redirect_uri: redirect_uri,
-//         state: state,
-//       })
-//   );
-// });
-
-// router.get("/callback", function (req, res) {
-//   // your application requests refresh and access tokens
-//   // after checking the state parameter
-
-//   var code = req.query.code || null;
-// //   var state = req.query.state || null;
-// //   var storedState = req.cookies ? req.cookies[stateKey] : null;
-
-//   if (state === null || state !== storedState) {
-//     res.redirect(
-//       "/#" +
-//         querystring.stringify({
-//           error: "state_mismatch",
-//         })
-//     );
-//   } else {
-//     res.clearCookie(stateKey);
-//     var authOptions = {
-//       url: "https://accounts.spotify.com/api/token",
-//       form: {
-//         code: code,
-//         redirect_uri: redirect_uri,
-//         grant_type: "authorization_code",
-//       },
-//       headers: {
-//         Authorization:
-//           "Basic " +
-//           new Buffer(client_id + ":" + client_secret).toString("base64"),
-//       },
-//       json: true,
-//     };
-
-//     axios.post(authOptions, function (error, response, body) {
-//       if (!error && response.statusCode === 200) {
-//         var access_token = body.access_token,
-//           refresh_token = body.refresh_token;
-
-//         var options = {
-//           url: "https://api.spotify.com/v1/me",
-//           headers: { Authorization: "Bearer " + access_token },
-//           json: true,
-//         };
-
-//         // use the access token to access the Spotify Web API
-//         axios.get(options, function (error, response, body) {
-//           console.log(body);
-//         });
-
-//         // we can also pass the token to the browser to make requests from there
-//         res.redirect(
-//           "/#" +
-//             querystring.stringify({
-//               access_token: access_token,
-//               refresh_token: refresh_token,
-//             })
-//         );
-//       } else {
-//         res.redirect(
-//           "/#" +
-//             querystring.stringify({
-//               error: "invalid_token",
-//             })
-//         );
-//       }
-//     });
-//   }
-// });
-
-// router.get("/refresh_token", function (req, res) {
-//   // requesting access token from refresh token
-//   var refresh_token = req.query.refresh_token;
-//   var authOptions = {
-//     url: "https://accounts.spotify.com/api/token",
-//     headers: {
-//       Authorization:
-//         "Basic " +
-//         new Buffer(client_id + ":" + client_secret).toString("base64"),
-//     },
-//     form: {
-//       grant_type: "refresh_token",
-//       refresh_token: refresh_token,
-//     },
-//     json: true,
-//   };
-
-//   router.post(authOptions, function (error, response, body) {
-//     if (!error && response.statusCode === 200) {
-//       var access_token = body.access_token;
-//       res.send({
-//         access_token: access_token,
-//       });
-//     }
-//   });
-// });
-
-router.post("/login", (req, res) => {
-    const code = req.body.code
-
-    axios.post("https://accounts.spotify.com/api/token", {
-
+// request to exchange code received for access token to make future requests
+router.get("/callback", rejectUnauthenticated, (req, res) => {
+  // incoming query params from spotify
+  const code = req.query.code;
+  axios
+    .post(
+      "https://accounts.spotify.com/api/token",
+      querystring.stringify({
+        code: code,
+        redirect_uri: redirect_uri,
+        grant_type: "authorization_code",
+      }),
+      {
+        headers: {
+          Authorization:
+            "Basic " +
+            Buffer.from(client_id + ":" + client_secret).toString("base64"),
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    )
+    .then((response) => {
+      console.log(response.data);
+      // Save the access token in a session
+      req.session.access_token = response.data.access_token;
+      console.log(req.session.access_token);
+      res.redirect(200, "http://localhost:3000");
     })
-})
-    
-    
-    
+    .catch((err) => {
+      console.log("error getting token", err);
+      res.redirect(400, "http://localhost:3000");
+    });
+});
+
+// search to get artist ID from Spotify
+router.get("/artist/:artist", rejectUnauthenticated, (req, res) => {
+    console.log("in artist", req.params.artist);
+    axios
+    .get(`https://api.spotify.com/v1/search?q=${req.params.artist}&type=artist`, {
+        headers: {
+            'Authorization': `Bearer ${req.session.access_token}`,
+            'Content-Type': 'application/json'
+          }
+    })
+    .then((response) => {
+        console.log('artist response:', response.data.artists.items[0].name);
+        res.send(response.data);
+    })
+    .catch((err) => {
+        console.log("error getting artist ID", err);
+        res.sendStatus(500);
+    });
+});
+
+// search to get tracks by artist ID from Spotify
+router.get("/tracks", rejectUnauthenticated, (req, res) => {
+    console.log("in tracks", req.query.artistID);
+    const artist = req.query.artistID;
+    axios
+    .get(`https://api.spotify.com/v1/artists/${artist}/top-tracks?market=US&limit=3`, {
+        headers: {
+            'Authorization': `Bearer ${req.session.access_token}`,
+            'Content-Type': 'application/json'
+          }
+    })
+    .then((response) => {
+        console.log('track response:', response.data);
+        res.send(response.data);
+    })
+    .catch((err) => {
+        console.log("error getting tracks", err);
+        res.sendStatus(500);
+    });
+});
 
 module.exports = router;

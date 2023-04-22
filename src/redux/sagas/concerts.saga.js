@@ -92,7 +92,7 @@ function* concertsSaga(action) {
   // save concert to user list
   yield takeEvery("SAVE_CONCERT", saveConcert);
   // update attended value for concert in user's list
-  yield takeEvery("UPDATE_CONCERT_ATTENDED", updateConcertAttended)
+  yield takeEvery("UPDATE_CONCERT_ATTENDED", updateConcertAttended);
   // remove concert from user list
   yield takeEvery("REMOVE_CONCERT", removeConcert);
 }
