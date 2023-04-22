@@ -105,7 +105,7 @@ function DetailsPage() {
           sx={{ width: "100%", maxWidth: 460, bgcolor: "background.paper" }}
         >
           <Typography sx={{ mt: 2, mb: 2 }} variant="h6" component="div">
-            Top Tracks
+          Top Tracks <img src="./images/Spotify_Icon_RGB_Green.png" width="21" />
           </Typography>
           <List>
             <ListItem
