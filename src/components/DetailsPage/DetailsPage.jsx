@@ -1,10 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Snackbar, Button } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
-import { Stack } from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import IconButton from "@mui/material/IconButton";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 function DetailsPage() {
+  const history = useHistory();
   const dispatch = useDispatch();
   // get details from the store
   const concertDetails = useSelector((store) => store.details);
@@ -38,8 +47,22 @@ function DetailsPage() {
     });
   };
 
+  const goBack = () => {
+    dispatch({
+      type: "CLEAR_CONCERT_DETAILS"
+    });
+    dispatch({
+      type: "CLEAR_TRACKS"
+    })
+    history.goBack();
+  }
+
   return (
     <>
+      <Button sx={{ marginBottom: "10px" }} onClick={goBack}>
+        <ArrowBackIosIcon />
+        Back
+      </Button>
       {concertDetails?.name && (
         <center>
           <div>
@@ -56,7 +79,6 @@ function DetailsPage() {
             {/* show save button if saveToggle true and show snackbar after clicking SAVE */}
             {saveToggle && (
               <Button
-                sx={{ marginBottom: "10px" }}
                 variant="contained"
                 color="primary"
                 onClick={saveConcert}
@@ -75,40 +97,50 @@ function DetailsPage() {
               </Alert>
             </Snackbar>
           </div>
-
-          <h1>Top Tracks:</h1>
-          {tracks.length && (
-            <div>
-              <Stack
-                direction="column"
-                alignItems="center"
-                justifyContent="center"
-                spacing={2}
-              >
-                <h3>{tracks[0].name}</h3>
-                <h3>{tracks[1].name}</h3>
-                <h3>{tracks[2].name}</h3>
-              </Stack>
-              <Stack
-                direction="column"
-                alignItems="flex-start"
-                justifyContent="center"
-                spacing={2}
-              >
-                <Button variant="outlined" href={tracks[0].uri}>
-                  LISTEN
-                </Button>
-                <Button variant="outlined" href={tracks[1].uri}>
-                  LISTEN
-                </Button>
-                <Button variant="outlined" href={tracks[2].uri}>
-                  LISTEN
-                </Button>
-              </Stack>
-            </div>
-          )}
         </center>
       )}
+      {tracks.length ? (
+        <Box
+          m="auto"
+          sx={{ width: "100%", maxWidth: 460, bgcolor: "background.paper" }}
+        >
+          <Typography sx={{ mt: 2, mb: 2 }} variant="h6" component="div">
+            Top Tracks
+          </Typography>
+          <List>
+            <ListItem
+              secondaryAction={
+                <IconButton edge="end" aria-label="play" href={tracks[0].uri}>
+                  <PlayCircleIcon />
+                </IconButton>
+              }
+            >
+              <ListItemText primary={tracks[0].name} />
+            </ListItem>
+            <ListItem
+              secondaryAction={
+                <IconButton edge="end" aria-label="play" href={tracks[1].uri}>
+                  <PlayCircleIcon />
+                </IconButton>
+              }
+            >
+              <ListItemText primary={tracks[1].name} />
+            </ListItem>
+            <ListItem
+              secondaryAction={
+                <IconButton edge="end" aria-label="play" href={tracks[2].uri}>
+                  <PlayCircleIcon />
+                </IconButton>
+              }
+            >
+              <ListItemText primary={tracks[2].name} />
+            </ListItem>
+          </List>
+        </Box>
+      ) : (
+        <h2>No songs found for artist</h2>
+      )
+      }
     </>
   );
 }
