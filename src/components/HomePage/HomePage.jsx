@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Grid from "@mui/material/Grid";
@@ -7,9 +7,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 
 import ConcertItem from "../ConcertItem/ConcertItem";
 import SpotifyLogin from "./SpotifyLogin";
-import SpotifyDashboard from "./SpotifyDashboard";
-
-const code = new URLSearchParams(window.location.search).get('code')
 
 function HomePage() {
   // setup dispatch
@@ -75,7 +72,7 @@ function HomePage() {
         </form>
       </center>
       <center>
-        {code ? <SpotifyDashboard code={code} /> : <SpotifyLogin />}
+        <SpotifyLogin />
       </center>
       <center>
         {concertList?.events ? (
