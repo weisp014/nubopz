@@ -141,7 +141,9 @@ function DetailsPage() {
           </Paper>
         </Box>
       ) : (
-        <h2>No songs found for artist</h2>
+        <center>
+        <h2>No tracks found for artist</h2>
+        </center>
       )}
     </>
   );

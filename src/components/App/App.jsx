@@ -49,7 +49,6 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Router>
-        <div>
           <Nav />
           {/* padding to make sure bottom nav bar doesn't cover page content */}
           <Box sx={{ pb: 9, m: 2 }}>
@@ -108,7 +107,6 @@ function App() {
             <BottomNav />
             {/* <Footer /> */}
           </Box>
-        </div>
       </Router>
     </ThemeProvider>
   );
