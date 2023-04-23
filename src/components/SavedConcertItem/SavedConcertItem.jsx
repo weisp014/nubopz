@@ -59,18 +59,15 @@ function SavedConcertItem({ concert, attendedFilter }) {
             {concert.date}
           </Typography>
         </CardContent>
-        {/* Toggle attended button based on if "attended" is currently true or false */}
-        <CardActions>
-          {concert.attended ? (
+        {/* If concert attended is false show button option to mark as attended */}
+        <CardActions sx={{justifyContent: "space-between"}}>
+          {!concert.attended && (
             <Button onClick={changeAttended} size="small">
               Attended
             </Button>
-          ) : (
-            <Button onClick={changeAttended} size="small">
-              Not Attended
-            </Button>
-          )}
-          <Button onClick={removeConcert} size="small">
+          ) 
+          }
+          <Button onClick={removeConcert} size="small" color="secondary">
               Remove
             </Button>
         </CardActions>
