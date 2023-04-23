@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
+import { Button } from "@mui/material";
 import './LoginForm.css';
 
 function LoginForm() {
@@ -58,7 +59,7 @@ function LoginForm() {
         </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
+        <Button type="submit" name="submit" variant="contained" size="large">Login</Button>
       </div>
     </form>
   );

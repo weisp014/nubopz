@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from "@mui/material";
 import './RegisterForm.css'
 
 function RegisterForm() {
@@ -53,7 +54,7 @@ function RegisterForm() {
         </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
+      <Button type="submit" name="submit" variant="contained" size="large">Register</Button>
       </div>
     </form>
   );
