@@ -11,6 +11,7 @@ import Box from "@mui/material/Box";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import Paper from "@mui/material/Paper";
 
 function DetailsPage() {
   const history = useHistory();
@@ -49,13 +50,13 @@ function DetailsPage() {
 
   const goBack = () => {
     dispatch({
-      type: "CLEAR_CONCERT_DETAILS"
+      type: "CLEAR_CONCERT_DETAILS",
     });
     dispatch({
-      type: "CLEAR_TRACKS"
-    })
+      type: "CLEAR_TRACKS",
+    });
     history.goBack();
-  }
+  };
 
   return (
     <>
@@ -65,47 +66,48 @@ function DetailsPage() {
       </Button>
       {concertDetails?.name && (
         <center>
-          <div>
-            <img src={concertDetails.images[3].url} width={300} />
-            <h2>{concertDetails.name}</h2>
-            <p>
-              {concertDetails._embedded.venues[0].name},{" "}
-              {concertDetails._embedded.venues[0].city.name}
-            </p>
-            <h3>
-              {concertDetails.dates.start.localDate}{" "}
-              {concertDetails.dates.start.localTime}
-            </h3>
-            {/* show save button if saveToggle true and show snackbar after clicking SAVE */}
-            {saveToggle && (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={saveConcert}
+          <Box m="auto" sx={{ width: "100%", maxWidth: 460 }}>
+            <Paper>
+              <img src={concertDetails.images[3].url} width={300} />
+              <h2>{concertDetails.name}</h2>
+              <p>
+                {concertDetails._embedded.venues[0].name},{" "}
+                {concertDetails._embedded.venues[0].city.name}
+              </p>
+              <h3>
+                {concertDetails.dates.start.localDate}{" "}
+                {concertDetails.dates.start.localTime}
+              </h3>
+              {/* show save button if saveToggle true and show snackbar after clicking SAVE */}
+              {saveToggle && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={saveConcert}
+                >
+                  SAVE
+                </Button>
+              )}
+              <Snackbar
+                open={open}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                autoHideDuration={2000}
+                onClose={() => setOpen(false)}
               >
-                SAVE
-              </Button>
-            )}
-            <Snackbar
-              open={open}
-              anchorOrigin={{ vertical: "top", horizontal: "center" }}
-              autoHideDuration={2000}
-              onClose={() => setOpen(false)}
-            >
-              <Alert severity="success" sx={{ width: "100%" }}>
-                Concert Saved!
-              </Alert>
-            </Snackbar>
-          </div>
-        </center>
+                <Alert severity="success" sx={{ width: "100%" }}>
+                  Concert Saved!
+                </Alert>
+              </Snackbar>
+            </Paper>
+          </Box>
+          </center>
       )}
       {tracks.length ? (
-        <Box
-          m="auto"
-          sx={{ width: "100%", maxWidth: 460, bgcolor: "background.paper" }}
-        >
+        <Box m="auto" sx={{ width: "100%", maxWidth: 460 }}>
+          <Paper>
           <Typography sx={{ mt: 2, mb: 2 }} variant="h6" component="div">
-          Top Tracks <img src="./images/Spotify_Icon_RGB_Green.png" width="21" />
+            Top Tracks{" "}
+            <img src="./images/Spotify_Icon_RGB_Green.png" width="21" />
           </Typography>
           <List>
             <ListItem
@@ -136,11 +138,11 @@ function DetailsPage() {
               <ListItemText primary={tracks[2].name} />
             </ListItem>
           </List>
+          </Paper>
         </Box>
       ) : (
         <h2>No songs found for artist</h2>
-      )
-      }
+      )}
     </>
   );
 }
