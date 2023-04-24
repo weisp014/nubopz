@@ -39,7 +39,7 @@ function ConcertItem({ concert }) {
     >
       <center>
         <Card
-          sx={{ minWidth: 300, maxWidth: 300, minHeight: 350, maxHeight: 350 }}
+          sx={{ minWidth: 300, maxWidth: 300, minHeight: 300, maxHeight: 300 }}
           onClick={handleDetails}
         >
           <CardActionArea>
@@ -50,7 +50,7 @@ function ConcertItem({ concert }) {
               alt={concert.name}
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography gutterBottom variant="h5" component="div" noWrap="true">
                 {concert.name}
               </Typography>
               <Typography variant="body2" color="text.secondary">
