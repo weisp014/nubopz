@@ -33,7 +33,7 @@ function MyList() {
           direction="row"
           alignItems="center"
           justifyContent="center"
-          spacing={2}
+          gap="34px"
           sx={{ mb: "30px" }}
         >
           {/* toggle showing attended concerts */}
