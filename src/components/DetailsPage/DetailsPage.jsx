@@ -16,6 +16,8 @@ import Paper from "@mui/material/Paper";
 function DetailsPage() {
   const history = useHistory();
   const dispatch = useDispatch();
+  // get user info from store
+  const user = useSelector((store) => store.user);
   // get details from the store
   const concertDetails = useSelector((store) => store.details);
   // get tracks from the store
@@ -29,8 +31,12 @@ function DetailsPage() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  // Change 24hr time format to 12hr
+  // const timeSuff = Number(concertDetails.dates.start.localTime[0] - '0');
+  // console.log(timeSuff);
+
   // TODO: Add info and price?
-  const saveConcert = () => {
+  function saveConcert() {
     // changing toggle to remove save button
     setSaveToggle(false);
     // show snackbar
@@ -46,7 +52,7 @@ function DetailsPage() {
         time: concertDetails.dates.start.localTime,
       },
     });
-  };
+  }
 
   const goBack = () => {
     dispatch({
@@ -100,49 +106,65 @@ function DetailsPage() {
               </Snackbar>
             </Paper>
           </Box>
-          </center>
+        </center>
       )}
       {tracks.length ? (
         <Box m="auto" sx={{ width: "100%", maxWidth: 460 }}>
           <Paper>
-          <Typography sx={{ mt: 2, mb: 2 }} variant="h6" component="div">
-            Top Tracks{" "}
-            <img src="./images/Spotify_Icon_RGB_Green.png" width="21" />
-          </Typography>
-          <List>
-            <ListItem
-              secondaryAction={
-                <IconButton edge="end" aria-label="play" href={tracks[0].uri}>
-                  <PlayCircleIcon />
-                </IconButton>
-              }
-            >
-              <ListItemText primary={tracks[0].name} />
-            </ListItem>
-            <ListItem
-              secondaryAction={
-                <IconButton edge="end" aria-label="play" href={tracks[1].uri}>
-                  <PlayCircleIcon />
-                </IconButton>
-              }
-            >
-              <ListItemText primary={tracks[1].name} />
-            </ListItem>
-            <ListItem
-              secondaryAction={
-                <IconButton edge="end" aria-label="play" href={tracks[2].uri}>
-                  <PlayCircleIcon />
-                </IconButton>
-              }
-            >
-              <ListItemText primary={tracks[2].name} />
-            </ListItem>
-          </List>
+            <Typography sx={{ mt: 2, mb: 2 }} variant="h6" component="div">
+              Top Tracks{" "}
+              <img src="./images/Spotify_Icon_RGB_Green.png" width="21" />
+            </Typography>
+            <List>
+              <ListItem
+                secondaryAction={
+                  <IconButton edge="end" aria-label="play" href={tracks[0].uri}>
+                    <PlayCircleIcon />
+                  </IconButton>
+                }
+              >
+                <ListItemText primary={tracks[0].name} />
+              </ListItem>
+              {tracks[1] && (
+                <ListItem
+                  secondaryAction={
+                    <IconButton
+                      edge="end"
+                      aria-label="play"
+                      href={tracks[1].uri}
+                    >
+                      <PlayCircleIcon />
+                    </IconButton>
+                  }
+                >
+                  <ListItemText primary={tracks[1].name} />
+                </ListItem>
+              )}
+              {tracks[2] && (
+                <ListItem
+                  secondaryAction={
+                    <IconButton
+                      edge="end"
+                      aria-label="play"
+                      href={tracks[2].uri}
+                    >
+                      <PlayCircleIcon />
+                    </IconButton>
+                  }
+                >
+                  <ListItemText primary={tracks[2].name} />
+                </ListItem>
+              )}
+            </List>
           </Paper>
         </Box>
+      ) : user.spotify ? (
+        <center>
+          <h2>No tracks found for artist</h2>
+        </center>
       ) : (
         <center>
-        <h2>No tracks found for artist</h2>
+          <h2>Login to spotify to listen to top tracks!</h2>
         </center>
       )}
     </>
