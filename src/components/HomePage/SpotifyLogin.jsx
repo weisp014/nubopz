@@ -11,6 +11,7 @@ const AUTH_URL =
     client_id: "5bf4c2c195584dd18dc002bfd73645b5",
     scope: scope,
     redirect_uri: redirect_uri,
+    show_dialog: "true",
   });
 
 // returns a link to spotify login page
