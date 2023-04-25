@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import AlertDialog from "./DeleteAlert";
 
 function SavedConcertItem({ concert, attendedFilter }) {
   const dispatch = useDispatch();
@@ -67,9 +68,7 @@ function SavedConcertItem({ concert, attendedFilter }) {
             </Button>
           ) 
           }
-          <Button onClick={removeConcert} size="small" color="secondary">
-              Remove
-            </Button>
+          <AlertDialog removeConcert={removeConcert} />
         </CardActions>
       </Card>
       </center>
