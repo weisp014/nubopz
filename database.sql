@@ -12,7 +12,7 @@ CREATE TABLE "user" (
 CREATE TABLE "favorites" (
 	"id" serial NOT NULL,
 	"user_id" INT REFERENCES "user",
-	"event_id" varchar(255) NOT NULL UNIQUE,
+	"event_id" varchar(255) NOT NULL,
 	"event_name" varchar(255) NOT NULL,
 	"venue" varchar(255) NOT NULL,
 	"image_url" varchar(255) NOT NULL,
