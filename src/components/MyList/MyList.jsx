@@ -16,7 +16,7 @@ function MyList() {
   const [attendedFilter, setAttendedFilter] = useState(false);
   // state to track name entered in search input
   const [searchValue, setSearchValue] = useState(null);
-  // on page load fetch user's saved concerts
+  // fetch user's saved concerts any time attendedFilter changes
   useEffect(() => {
     dispatch({
       type: "FETCH_MY_CONCERTS",
@@ -64,6 +64,8 @@ function MyList() {
         </Stack>
       </center>
       <center>
+        {attendedFilter ? <h2>Attended Concerts:</h2> :
+        <h2>Upcoming Concerts:</h2>}
           {/* Check if search input is null (not entered),
            true: map out list of concerts
            false: only map out concerts where the name matches the search input value */}
@@ -79,7 +81,7 @@ function MyList() {
               ))}
               </Grid>
             ) : (
-                <h2>No concerts to display</h2>
+                <h3>No concerts to display</h3>
             )
           ) : (
             <Grid container spacing={{ xs: 2, md: 3 }}>
