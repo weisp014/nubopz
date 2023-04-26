@@ -16,9 +16,8 @@ CREATE TABLE "favorites" (
 	"event_name" varchar(255) NOT NULL,
 	"venue" varchar(255) NOT NULL,
 	"image_url" varchar(255) NOT NULL,
-	"date" DATE NOT NULL,
-	"info" varchar(255),
-	"price" varchar(255),
+	"date" varchar(255) NOT NULL,
+	"time" varchar(255) NOT NULL,
 	"attended" BOOLEAN DEFAULT 'false'
 );
 
