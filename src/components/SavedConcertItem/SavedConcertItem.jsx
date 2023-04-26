@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import AlertDialog from "./DeleteAlert";
+import AlertDialog from "./RemoveAlert";
 
 function SavedConcertItem({ concert, attendedFilter }) {
   const dispatch = useDispatch();

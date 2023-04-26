@@ -31,10 +31,6 @@ function DetailsPage() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  // Change 24hr time format to 12hr
-  // const timeSuff = Number(concertDetails.dates.start.localTime[0] - '0');
-  // console.log(timeSuff);
-
   // TODO: Add info and price?
   function saveConcert() {
     // changing toggle to remove save button
@@ -73,7 +69,7 @@ function DetailsPage() {
       {concertDetails?.name && (
         <center>
           <Box m="auto" sx={{ width: "100%", maxWidth: 460 }}>
-            <Paper>
+            <Paper sx={{ pt: 2, pb: 2 }}>
               <img src={concertDetails.images[3].url} width={300} />
               <h2>{concertDetails.name}</h2>
               <p>
@@ -82,7 +78,11 @@ function DetailsPage() {
               </p>
               <h3>
                 {concertDetails.dates.start.localDate}{" "}
-                {concertDetails.dates.start.localTime}
+                {/* Change 24hr time format to 12hr */}
+                {(Number(concertDetails.dates.start.localTime.split(":")[0]) >= 12 ) ? 
+                `${Number(concertDetails.dates.start.localTime.split(":")[0]) - 12}:${concertDetails.dates.start.localTime.split(":")[1]}PM` :
+                  `${concertDetails.dates.start.localTime.split(":")[0]}AM`
+                }
               </h3>
               {/* show save button if saveToggle true and show snackbar after clicking SAVE */}
               {saveToggle && (
