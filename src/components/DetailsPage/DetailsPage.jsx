@@ -13,6 +13,8 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Paper from "@mui/material/Paper";
 
+import SpotifyLogin from "../HomePage/SpotifyLogin";
+
 function DetailsPage() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -22,8 +24,8 @@ function DetailsPage() {
   const concertDetails = useSelector((store) => store.details);
   // get tracks from the store
   const tracks = useSelector((store) => store.tracks);
-  // state to control save button
-  const [saveToggle, setSaveToggle] = useState(true);
+  // get user's saved concerts
+  const favorites = useSelector((store) => store.favorites);
   // state to control snackbar
   const [open, setOpen] = useState(false);
   // custom alert component from MUI
@@ -31,10 +33,7 @@ function DetailsPage() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  // TODO: Add info and price?
   function saveConcert() {
-    // changing toggle to remove save button
-    setSaveToggle(false);
     // show snackbar
     setOpen(true);
     dispatch({
@@ -79,13 +78,19 @@ function DetailsPage() {
               <h3>
                 {concertDetails.dates.start.localDate}{" "}
                 {/* Change 24hr time format to 12hr */}
-                {(Number(concertDetails.dates.start.localTime.split(":")[0]) >= 12 ) ? 
-                `${Number(concertDetails.dates.start.localTime.split(":")[0]) - 12}:${concertDetails.dates.start.localTime.split(":")[1]}PM` :
-                  `${concertDetails.dates.start.localTime.split(":")[0]}AM`
-                }
+                {Number(concertDetails.dates.start.localTime.split(":")[0]) >=
+                12
+                  ? `${
+                      Number(
+                        concertDetails.dates.start.localTime.split(":")[0]
+                      ) - 12
+                    }:${concertDetails.dates.start.localTime.split(":")[1]}PM`
+                  : `${concertDetails.dates.start.localTime.split(":")[0]}AM`}
               </h3>
-              {/* show save button if saveToggle true and show snackbar after clicking SAVE */}
-              {saveToggle && (
+              {/* show save button if concert is not already saved in user's list, otherwise disable button */}
+              {favorites.filter(
+                (savedConcert) => savedConcert.event_id === concertDetails.id
+              ).length === 0 ? (
                 <Button
                   variant="contained"
                   color="primary"
@@ -93,7 +98,17 @@ function DetailsPage() {
                 >
                   SAVE
                 </Button>
+              ) : (
+                <Button
+                  disabled
+                  variant="contained"
+                  color="primary"
+                  onClick={saveConcert}
+                >
+                  SAVE
+                </Button>
               )}
+              {/* show snackbar after clicking SAVE */}
               <Snackbar
                 open={open}
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -165,6 +180,7 @@ function DetailsPage() {
       ) : (
         <center>
           <h2>Login to spotify to listen to top tracks!</h2>
+          <SpotifyLogin />
         </center>
       )}
     </>

@@ -44,7 +44,7 @@ function SavedConcertItem({ concert, attendedFilter }) {
       style={{ textAlign: "center" }}
     >
       <center>
-      <Card sx={{ minWidth: 300, maxWidth: 300, minHeight: 350, maxHeight: 400}}>
+      <Card sx={{ minWidth: 300, maxWidth: 300, minHeight: 350}}>
         <CardMedia
           sx={{ height: 200 }}
           image={concert.image_url}

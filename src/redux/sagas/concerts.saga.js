@@ -62,6 +62,13 @@ function* saveConcert(action) {
   try {
     //post concert info to user's saved list
     yield axios.post("/api/concerts/", action.payload);
+    // fetch user's concerts after saving new concert
+    yield put({
+      type: "FETCH_MY_CONCERTS",
+      payload: {
+        attendedFilter: false
+      },
+    });
   } catch (err) {
     console.log("error saving concert", err);
   }
