@@ -18,7 +18,7 @@ function HomePage() {
   // get user info from store
   const user = useSelector((store) => store.user);
   // stores values from input fields in form
-  const [zipCode, setZipCode] = useState("");
+  const [city, setCity] = useState("");
 
   const HandleNewSearch = (event) => {
     event.preventDefault();
@@ -29,7 +29,7 @@ function HomePage() {
     dispatch({
       type: "FETCH_CONCERTS",
       payload: {
-        zipCode,
+        city: city,
       },
     });
   };
@@ -48,10 +48,10 @@ function HomePage() {
             <TextField
               sx={{ width: "150px", margin: "5px" }}
               type="text"
-              value={zipCode}
-              onChange={(event) => setZipCode(event.target.value)}
-              label="Zip Code"
-              helperText="Ex: 55403"
+              value={city}
+              onChange={(event) => setCity(event.target.value)}
+              label="Enter City"
+              helperText="Ex: Minneapolis"
               required
               autoFocus
             />

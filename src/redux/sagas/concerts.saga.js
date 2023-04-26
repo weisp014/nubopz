@@ -5,7 +5,7 @@ function* fetchConcerts(action) {
   try {
     const concertList = yield axios.get(`/api/concerts/`, {
       params: {
-        zip: action.payload.zipCode,
+        city: action.payload.city,
       },
     });
     console.log("incoming concerts:", concertList.data);
