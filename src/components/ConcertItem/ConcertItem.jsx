@@ -21,6 +21,13 @@ function ConcertItem({ concert }) {
       type: "GET_TRACKS",
       payload: concert.name,
     });
+    // get user's upcoming concert list to be able to check if concert has already been saved to their list
+    dispatch({
+      type: "FETCH_MY_CONCERTS",
+      payload: {
+        attendedFilter: false
+      },
+    });
     history.push("/details");
   };
 
