@@ -24,9 +24,6 @@ function ConcertItem({ concert }) {
     history.push("/details");
   };
 
-  {
-    /* <p>Price:{concert.priceRanges.length && concert.priceRanges[0].min}</p> */
-  }
   return (
     <Grid
       item

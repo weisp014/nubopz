@@ -27,6 +27,7 @@ function* concertDetails(action) {
       const concertDetails = yield axios.get(
         `/api/concerts/details/${action.payload}`
       );
+      console.log(concertDetails.data);
       yield put({
         type: "SET_DETAILS",
         payload: concertDetails.data,
