@@ -47,7 +47,7 @@ function ConcertItem({ concert }) {
               alt={concert.name}
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div" noWrap="true">
+              <Typography gutterBottom variant="h5" component="div" noWrap={true}>
                 {concert.name}
               </Typography>
               <Typography variant="body2" color="text.secondary">

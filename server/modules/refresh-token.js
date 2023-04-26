@@ -24,12 +24,10 @@ const refreshToken = (req, res, next) => {
         }
       )
       .then((response) => {
-        console.log("refresh data", response.data);
         // delete old and save new access token
         delete req.session.access_token;
-        console.log("session:", req.session);
         req.session.access_token = response.data.access_token;
-        // got new access token. now do the next thing
+        // got new access token. now do the next middleware function
         next();
       })
       .catch((err) => {
