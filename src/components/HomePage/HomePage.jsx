@@ -15,7 +15,8 @@ function HomePage() {
   const concertList = useSelector((store) => store.concertList._embedded);
   // get loading state from store
   const isLoading = useSelector((store) => store.loading);
-
+  // get user info from store
+  const user = useSelector((store) => store.user);
   // stores values from input fields in form
   const [zipCode, setZipCode] = useState("");
 
@@ -72,7 +73,8 @@ function HomePage() {
         </form>
       </center>
       <center>
-        <SpotifyLogin />
+        {/* show spotify login button if spotify status is false */}
+        {!user.spotify && <SpotifyLogin />}
       </center>
       <center>
         {concertList?.events ? (
