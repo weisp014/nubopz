@@ -25,11 +25,9 @@ function AlertDialog({ removeConcert }) {
 
   return (
     <div>
-      <Tooltip title="Remove">
         <Button onClick={handleClickOpen} size="small" color="secondary">
           Remove
         </Button>
-      </Tooltip>
       <Dialog
         open={open}
         onClose={handleNo}

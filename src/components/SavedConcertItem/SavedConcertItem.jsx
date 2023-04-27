@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import AlertDialog from "./RemoveAlert";
+import Tooltip from "@mui/material/Tooltip";
 
 function SavedConcertItem({ concert, attendedFilter }) {
   const dispatch = useDispatch();
@@ -25,13 +26,13 @@ function SavedConcertItem({ concert, attendedFilter }) {
 
   const removeConcert = () => {
     dispatch({
-        type: "REMOVE_CONCERT",
-        payload: {
-          event_id: concert.event_id,
-          attendedFilter: attendedFilter,
-        },
-    })
-  }
+      type: "REMOVE_CONCERT",
+      payload: {
+        event_id: concert.event_id,
+        attendedFilter: attendedFilter,
+      },
+    });
+  };
 
   return (
     <Grid
@@ -44,33 +45,37 @@ function SavedConcertItem({ concert, attendedFilter }) {
       style={{ textAlign: "center" }}
     >
       <center>
-      <Card sx={{ minWidth: 300, maxWidth: 300, minHeight: 350}}>
-        <CardMedia
-          sx={{ height: 200 }}
-          image={concert.image_url}
-          alt={concert.event_name}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {concert.event_name}
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            {concert.venue}
-            <br></br>
-            {concert.date}
-          </Typography>
-        </CardContent>
-        {/* If concert attended is false show button option to mark as attended */}
-        <CardActions sx={{justifyContent: "space-between"}}>
-          {!concert.attended && (
-            <Button onClick={changeAttended} size="small">
-              Attended
-            </Button>
-          ) 
-          }
-          <AlertDialog removeConcert={removeConcert} />
-        </CardActions>
-      </Card>
+        <Card sx={{ minWidth: 300, maxWidth: 300, minHeight: 350 }}>
+          {/* clicking card image will take user to ticketmaster ticket page */}
+          <Tooltip title="Buy Tickets" placement="top">
+          <CardActionArea href={concert.tickets} target="_blank">
+            <CardMedia
+              sx={{ height: 200 }}
+              image={concert.image_url}
+              alt={concert.event_name}
+            />
+          </CardActionArea>
+          </Tooltip>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {concert.event_name}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              {concert.venue}
+              <br></br>
+              {concert.date}
+            </Typography>
+          </CardContent>
+          {/* If concert attended is false show button option to mark as attended */}
+          <CardActions sx={{ justifyContent: "space-between" }}>
+            {!concert.attended && (
+              <Button onClick={changeAttended} size="small">
+                Attended
+              </Button>
+            )}
+            <AlertDialog removeConcert={removeConcert} />
+          </CardActions>
+        </Card>
       </center>
     </Grid>
   );
