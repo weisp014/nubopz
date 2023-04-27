@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Snackbar, Button } from "@mui/material";
+import { Snackbar, Button, Stack } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -12,6 +12,7 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Paper from "@mui/material/Paper";
+import { useParams } from "react-router-dom";
 
 import SpotifyLogin from "../HomePage/SpotifyLogin";
 
@@ -32,7 +33,18 @@ function DetailsPage() {
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+  const { id: concertId } = useParams();
 
+  // on page load grab id from url and fetch details
+  useEffect(() => {
+    console.log(concertId);
+    dispatch({
+      type: "FETCH_CONCERT_DETAILS",
+      payload: concertId,
+    });
+  }, []);
+
+  // save concert details to user's list
   function saveConcert() {
     // show snackbar
     setOpen(true);
@@ -48,7 +60,7 @@ function DetailsPage() {
       },
     });
   }
-
+  // clear details and tracks and go to previous page
   const goBack = () => {
     dispatch({
       type: "CLEAR_CONCERT_DETAILS",
@@ -87,27 +99,38 @@ function DetailsPage() {
                     }:${concertDetails.dates.start.localTime.split(":")[1]}PM`
                   : `${concertDetails.dates.start.localTime.split(":")[0]}AM`}
               </h3>
-              {/* show save button if concert is not already saved in user's list, otherwise disable button */}
-              {favorites.filter(
-                (savedConcert) => savedConcert.event_id === concertDetails.id
-              ).length === 0 ? (
+              <Stack direction="row" justifyContent="center" spacing={3}>
+                {/* show save button if concert is not already saved in user's list, otherwise disable button */}
+                {favorites.filter(
+                  (savedConcert) => savedConcert.event_id === concertDetails.id
+                ).length === 0 ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={saveConcert}
+                  >
+                    SAVE
+                  </Button>
+                ) : (
+                  <Button
+                    disabled
+                    variant="contained"
+                    color="primary"
+                    onClick={saveConcert}
+                  >
+                    SAVE
+                  </Button>
+                )}
+                {/* link to tickets in a new tab */}
                 <Button
                   variant="contained"
-                  color="primary"
-                  onClick={saveConcert}
+                  color="secondary"
+                  href={concertDetails.url}
+                  target="_blank"
                 >
-                  SAVE
+                  BUY TICKETS
                 </Button>
-              ) : (
-                <Button
-                  disabled
-                  variant="contained"
-                  color="primary"
-                  onClick={saveConcert}
-                >
-                  SAVE
-                </Button>
-              )}
+              </Stack>
               {/* show snackbar after clicking SAVE */}
               <Snackbar
                 open={open}
