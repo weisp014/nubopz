@@ -48,7 +48,7 @@ function SavedConcertItem({ concert, attendedFilter }) {
         <CardMedia
           sx={{ height: 200 }}
           image={concert.image_url}
-          title={concert.event_name}
+          alt={concert.event_name}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

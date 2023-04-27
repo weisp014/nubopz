@@ -17,10 +17,12 @@ CREATE TABLE "favorites" (
 	"venue" varchar(255) NOT NULL,
 	"image_url" varchar(255) NOT NULL,
 	"date" varchar(255) NOT NULL,
-	"time" varchar(255) NOT NULL,
+	"tickets" varchar(255) NOT NULL,
 	"attended" BOOLEAN DEFAULT 'false'
 );
 
 --unique index ensures a user can't add same event more than once
 CREATE UNIQUE INDEX ind_user_event_id
 ON "favorites" ("user_id", "event_id");
+
+
