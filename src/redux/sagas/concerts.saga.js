@@ -32,6 +32,10 @@ function* concertDetails(action) {
         type: "SET_DETAILS",
         payload: concertDetails.data,
       });
+      yield put({
+          type: "GET_TRACKS",
+          payload: concertDetails.data.name,
+        });
     } catch (err) {
       console.log("error getting details:", err);
     }

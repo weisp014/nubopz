@@ -13,14 +13,6 @@ function ConcertItem({ concert }) {
 
   const handleDetails = () => {
     console.log("in HandleDetails for id:", concert.id);
-    dispatch({
-      type: "FETCH_CONCERT_DETAILS",
-      payload: concert.id,
-    });
-    dispatch({
-      type: "GET_TRACKS",
-      payload: concert.name,
-    });
     // get user's upcoming concert list to be able to check if concert has already been saved to their list
     dispatch({
       type: "FETCH_MY_CONCERTS",
@@ -28,7 +20,7 @@ function ConcertItem({ concert }) {
         attendedFilter: false
       },
     });
-    history.push("/details");
+    history.push(`/details/${concert.id}`);
   };
 
   return (
