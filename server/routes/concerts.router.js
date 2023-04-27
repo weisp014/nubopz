@@ -56,10 +56,10 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     req.body.venue,
     req.body.image_url,
     req.body.date,
-    req.body.time,
+    req.body.tickets,
   ];
   const queryText = `INSERT INTO "favorites" 
-    ("user_id", "event_id", "event_name", "venue", "image_url", "date", "time")
+    ("user_id", "event_id", "event_name", "venue", "image_url", "date", "tickets")
     VALUES ($1, $2, $3, $4, $5, $6, $7);`;
 
   // send information to DB
