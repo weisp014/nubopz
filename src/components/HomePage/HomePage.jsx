@@ -46,7 +46,7 @@ function HomePage() {
             spacing={2}
           >
             <TextField
-              sx={{ width: "150px", margin: "5px" }}
+              sx={{ width: "170px", margin: "5px" }}
               type="text"
               value={city}
               onChange={(event) => setCity(event.target.value)}
