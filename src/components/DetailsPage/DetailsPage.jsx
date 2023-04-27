@@ -44,7 +44,7 @@ function DetailsPage() {
         venue: concertDetails._embedded.venues[0].name,
         image_url: concertDetails.images[0].url,
         date: concertDetails.dates.start.localDate,
-        time: concertDetails.dates.start.localTime,
+        tickets: concertDetails.url,
       },
     });
   }
