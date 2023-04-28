@@ -4,7 +4,8 @@ const axios = require("axios");
 const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
-const { refreshToken } = require("../modules/refresh-token"); 
+const { refreshToken } = require("../modules/refresh-token");
+const { spotifyCheck } = require("../modules/spotify-middleware");
 const querystring = require("querystring");
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -41,7 +42,6 @@ router.get("/callback", rejectUnauthenticated, (req, res) => {
       }
     )
     .then((response) => {
-      console.log(response.data);
       // save the access and refresh token to session
       req.session.access_token = response.data.access_token;
       req.session.refresh_token = response.data.refresh_token;
@@ -54,32 +54,34 @@ router.get("/callback", rejectUnauthenticated, (req, res) => {
 });
 
 // search to get artist ID from Spotify
-router.get("/artist/:artist", rejectUnauthenticated, refreshToken, (req, res) => {
-  console.log("in artist", req.params.artist);
-  console.log("bearer token used:", req.session.access_token);
-  axios
-    .get(
-      `https://api.spotify.com/v1/search?q=${req.params.artist}&type=artist`,
-      {
-        headers: {
-          Authorization: `Bearer ${req.session.access_token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-    .then((response) => {
-      console.log("artist response:", response.data.artists.items[0].name);
-      res.send(response.data);
-    })
-    .catch((err) => {
-      console.log("error getting artist ID", err);
-      res.sendStatus(500);
-    });
-});
+router.get(
+  "/artist/:artist",
+  rejectUnauthenticated,
+  refreshToken,
+  spotifyCheck,
+  (req, res) => {
+    axios
+      .get(
+        `https://api.spotify.com/v1/search?q=${req.params.artist}&type=artist`,
+        {
+          headers: {
+            Authorization: `Bearer ${req.session.access_token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        res.send(response.data);
+      })
+      .catch((err) => {
+        console.log("error getting artist ID", err);
+        res.sendStatus(500);
+      });
+  }
+);
 
 // search to get tracks by artist ID from Spotify
 router.get("/tracks", rejectUnauthenticated, (req, res) => {
-  console.log("in tracks", req.query.artistID);
   const artist = req.query.artistID;
   axios
     .get(`https://api.spotify.com/v1/artists/${artist}/top-tracks?market=US`, {
@@ -89,7 +91,6 @@ router.get("/tracks", rejectUnauthenticated, (req, res) => {
       },
     })
     .then((response) => {
-      // console.log("track response:", response.data);
       res.send(response.data);
     })
     .catch((err) => {
