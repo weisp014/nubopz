@@ -37,7 +37,6 @@ function DetailsPage() {
 
   // on page load grab id from url and fetch details
   useEffect(() => {
-    console.log(concertId);
     dispatch({
       type: "FETCH_CONCERT_DETAILS",
       payload: concertId,

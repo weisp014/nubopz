@@ -8,7 +8,6 @@ function* fetchConcerts(action) {
         city: action.payload.city,
       },
     });
-    console.log("incoming concerts:", concertList.data);
     yield put({
       type: "SET_CONCERTS",
       payload: concertList.data,
@@ -27,7 +26,6 @@ function* concertDetails(action) {
       const concertDetails = yield axios.get(
         `/api/concerts/details/${action.payload}`
       );
-      console.log(concertDetails.data);
       yield put({
         type: "SET_DETAILS",
         payload: concertDetails.data,
@@ -52,7 +50,6 @@ function* fetchMyConcerts(action) {
     const myConcerts = yield axios.get(
       `/api/concerts/favorites/${action.payload.attendedFilter}`
     );
-    console.log("my concerts:", myConcerts);
     yield put({
       type: "SET_FAVORITES",
       payload: myConcerts.data,

@@ -6,7 +6,6 @@ const querystring = require("querystring");
 // get refreshed access token from spotify
 const refreshToken = (req, res, next) => {
   if (req.session.refresh_token) {
-    console.log("in refreshToken");
     axios
       .post(
         `https://accounts.spotify.com/api/token`,

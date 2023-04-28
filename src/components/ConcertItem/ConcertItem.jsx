@@ -12,7 +12,6 @@ function ConcertItem({ concert }) {
   const history = useHistory();
 
   const handleDetails = () => {
-    console.log("in HandleDetails for id:", concert.id);
     // get user's upcoming concert list to be able to check if concert has already been saved to their list
     dispatch({
       type: "FETCH_MY_CONCERTS",
