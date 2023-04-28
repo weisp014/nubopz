@@ -16,7 +16,7 @@ const AUTH_URL =
 
 // returns a link to spotify login page
 function SpotifyLogin() {
-  return <Button sx={{ margin: "20px" }} variant="contained" color="secondary" href={AUTH_URL}>Login with spotify</Button>;
+  return <Button sx={{ margin: "20px", backgroundColor: "#1DB954" }} variant="contained" href={AUTH_URL}>Login with spotify</Button>;
 }
 
 export default SpotifyLogin;
