@@ -4,13 +4,14 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import HomeIcon from '@mui/icons-material/Home';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Paper from '@mui/material/Paper';
 
 function BottomNav() {
   const [value, setValue] = useState(0);
 
   return (
-    <BottomNavigation 
-    sx={{ width: '100%', position: 'fixed', bottom: 0 }} 
+    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+    <BottomNavigation
     showLabels
     value={value} 
     onChange={(event, newValue) => {
@@ -31,6 +32,7 @@ function BottomNav() {
         icon={<FavoriteIcon />}
       />
     </BottomNavigation>
+    </Paper>
   );
 }
 
