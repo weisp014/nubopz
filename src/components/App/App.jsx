@@ -18,6 +18,7 @@ import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import DetailsPage from "../DetailsPage/DetailsPage";
 import MyList from "../MyList/MyList";
+import InfoPage from "../InfoPage/InfoPage";
 
 import "./App.css";
 import Box from "@mui/material/Box";
@@ -59,6 +60,10 @@ function App() {
               {/* User does not need to be logged in to see the home page and search for concerts*/}
               <Route exact path="/home">
                 <HomePage />
+              </Route>
+
+              <Route exact path="/info">
+                <InfoPage />
               </Route>
 
               <Route exact path="/login">
@@ -105,7 +110,6 @@ function App() {
               </Route>
             </Switch>
             <BottomNav />
-            {/* <Footer /> */}
           </Box>
       </Router>
     </ThemeProvider>

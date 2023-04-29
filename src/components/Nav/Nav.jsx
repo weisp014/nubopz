@@ -19,14 +19,15 @@ function Nav() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Nubopz
           </Typography>
+          <Button component={Link} to="/info" color="inherit">
+            Info
+          </Button>
           {/* If no user is logged in, show these links */}
           {!user.id && (
             // If there's no user, show login/registration links
-            <Link to="/login">
-              <Button color="inherit">
+            <Button component={Link} to="/login" color="inherit">
               Login / Register
-              </Button>
-            </Link>
+            </Button>
           )}
           {/* If a user is logged in, show these links */}
           {user.id && <LogOutButton />}
