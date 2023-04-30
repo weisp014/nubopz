@@ -23,7 +23,7 @@ function InfoPage() {
             </Typography>
           </Paper>
         </Box>
-        <Box m="auto" sx={{ width: "100%", maxWidth: 460 }}></Box>
+        <Box m="auto" sx={{ width: "100%", maxWidth: 460 }}>
         <Paper sx={{ pt: 2, pb: 2 }}>
           <Typography sx={{ mt: 2, mb: 2 }} variant="h6" component="div">
             LinkedIn:
@@ -39,6 +39,7 @@ function InfoPage() {
             </a>
           </Typography>
         </Paper>
+        </Box>
       </center>
 
       <Footer />
