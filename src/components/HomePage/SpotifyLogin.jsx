@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 
 const querystring = require("querystring");
-const redirect_uri = "http://localhost:5000/api/spotify/callback";
+const redirect_uri = "https://nubopz.herokuapp.com/api/spotify/callback";
 const scope = "user-read-private user-read-email";
 
 const AUTH_URL =

@@ -9,7 +9,7 @@ const { spotifyCheck } = require("../modules/spotify-middleware");
 const querystring = require("querystring");
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri = "http://localhost:5000/api/spotify/callback";
+const redirect_uri = "https://nubopz.herokuapp.com/api/spotify/callback";
 
 /**
  * Initial source from basic node.js script that performs
