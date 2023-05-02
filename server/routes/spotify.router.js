@@ -45,10 +45,12 @@ router.get("/callback", rejectUnauthenticated, (req, res) => {
       // save the access and refresh token to session
       req.session.access_token = response.data.access_token;
       req.session.refresh_token = response.data.refresh_token;
+      // change url to "localhost:3000" when running locally
       res.redirect("https://nubopz.herokuapp.com");
     })
     .catch((err) => {
       console.log("error getting token", err);
+      // change url to "localhost:3000" when running locally
       res.redirect("https://nubopz.herokuapp.com");
     });
 });
