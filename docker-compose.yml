@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  myapp:
+    image: nubopz:1.0
+    ports:
+      - "5000:5000"
+    environment:
+      SERVER_SESSION_SECRET: /run/secrets/SERVER_SESSION_SECRET
+      TMASTER_API_KEY: /run/secrets/TMASTER_API_KEY
+      SPOTIFY_CLIENT_ID: /run/secrets/SPOTIFY_CLIENT_ID
+      SPOTIFY_CLIENT_SECRET: /run/secrets/SPOTIFY_CLIENT_SECRET
+      DATABASE_URL: /run/secrets/DATABASE_URL
+    secrets:
+      - SERVER_SESSION_SECRET
+      - TMASTER_API_KEY
+      - SPOTIFY_CLIENT_ID
+      - SPOTIFY_CLIENT_SECRET
+      - DATABASE_URL
+
+secrets:
+  SERVER_SESSION_SECRET:
+    external: true
+  TMASTER_API_KEY:
+    external: true
+  SPOTIFY_CLIENT_ID:
+    external: true
+  SPOTIFY_CLIENT_SECRET:
+    external: true
+  DATABASE_URL:
+    external: true
